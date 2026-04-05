@@ -1,23 +1,28 @@
 body {
     margin: 0;
     padding: 20px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
 /* 標籤尺寸 */
 .label {
     width: 5cm;
     height: 3cm;
-    border: 1px solid #000;
     box-sizing: border-box;
     padding: 8px;
     position: relative;
+    background-color: rgb(255, 253, 162);
 }
 
 /* 商品名稱 */
 .product-name {
-    font-weight: bold;
+    font-weight: 700;
     font-size: 16px;
+}
+.product-name span {
+    font-weight: 400;
+    font-size: 12px;
+    color: rgb(39, 39, 39);
 }
 
 /* 商品價格 */
@@ -25,10 +30,11 @@ body {
     position: absolute;
     right: 8px;
     bottom: 8px;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 32px;
+    color: rgb(255, 38, 0);
 }
-
+/* 貨幣單位 */
 .currency {
     font-size: 12px;
 }
