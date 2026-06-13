@@ -1,0 +1,15 @@
+import type { Product } from '@/types/label'
+
+/**
+ * 台灣示範資料（沿用原 label.html 的飲料樣本）。
+ * basePrice 即售價。
+ */
+export const twProducts: Product[] = [
+  { id: 'tw-1', name: '茶裏王', variant: '日式綠茶無糖', volume: '600ml', basePrice: 20 },
+  { id: 'tw-2', name: '茶裏王', variant: '台式綠茶', volume: '600ml', basePrice: 20 },
+  { id: 'tw-3', name: '茶裏王', variant: '白毫烏龍茶', volume: '600ml', basePrice: 20 },
+  { id: 'tw-4', name: '茶裏王', variant: '英式紅茶', volume: '600ml', basePrice: 20 },
+  { id: 'tw-5', name: '愛之味', variant: '健康油切分解茶', volume: '590ml', basePrice: 30 },
+  { id: 'tw-6', name: '原萃', variant: '日式綠茶', volume: '580ml', basePrice: 25 },
+  { id: 'tw-7', name: '伊藤園', variant: '綠茶', volume: '530ml', basePrice: 25 },
+]
