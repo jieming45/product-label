@@ -10,5 +10,6 @@
  * @returns 含千分位逗號的字串
  */
 export function formatPrice(price: number): string {
+  if (!Number.isFinite(price)) return '0'
   return Math.round(price).toLocaleString('en-US')
 }

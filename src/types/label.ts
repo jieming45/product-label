@@ -26,3 +26,17 @@ export interface Product {
   /** 條碼（EAN-13），可選 */
   barcode?: string
 }
+
+/**
+ * products.json 內的原始商品格式。
+ * 例如 `{ "brand": "伊藤園", "product": "日式綠茶(530ml)", "price": "25" }`。
+ * 由 `mockProducts.ts` 轉換成 {@link Product}。
+ */
+export interface RawProduct {
+  /** 品牌，對應 Product.name */
+  brand: string
+  /** 品名（可含括號容量），會被拆成 Product.variant 與 Product.volume */
+  product: string
+  /** 價格字串，轉成 Product.basePrice 數字 */
+  price: string
+}

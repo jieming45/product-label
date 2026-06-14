@@ -29,18 +29,38 @@ src/
 ├─ utils/
 │  ├─ price.ts                  # 純函式：formatPrice（千分位）
 │  └─ __tests__/
-├─ types/label.ts               # Product / LabelStyle 型別、LABEL_STYLES 清單
-├─ data/mockProducts.ts         # 示範資料（台灣飲料）
-├─ App.vue                      # 工具列 + 列印用標籤網格
+├─ types/label.ts               # Product / RawProduct / LabelStyle 型別、LABEL_STYLES 清單
+├─ data/
+│  ├─ products.json             # 商品資料來源（{ brand, product, price }）
+│  ├─ mockProducts.ts           # 讀取 products.json 並轉成 twProducts (Product[])
+│  └─ __tests__/                # 轉換邏輯測試
+├─ App.vue                      # 工具列（含「新增」表單）+ 列印用標籤網格
 ├─ main.ts
 └─ style.css                    # Tailwind 匯入 + 列印 (@page / print-color-adjust)
 ```
+
+`vite.config.ts` 內含一個僅在 `npm run dev` 提供的 `products-api` 外掛（`GET`/`POST /api/products`），用來讀寫 `products.json`。
 
 ## 列印注意事項
 
 - 點擊工具列「列印」按鈕（呼叫 `window.print()`）。工具列在列印時自動隱藏（`print:hidden`）。
 - 為求 `5cm × 3cm` 尺寸精準，`@page { margin: 0 }` 已移除預設頁邊；仍請在瀏覽器列印對話框中選擇 **「無邊界」** 與 **「實際大小 / 100% 縮放」**。
 - 紅色價格與黃色底色透過 `print-color-adjust: exact` 強制印出，避免瀏覽器省墨忽略背景色。
+
+## 商品資料與新增
+
+商品資料存放於 [`src/data/products.json`](src/data/products.json)，格式為：
+
+```json
+[
+  { "brand": "伊藤園", "product": "綠茶(530ml)", "price": "25" }
+]
+```
+
+`mockProducts.ts` 會在載入時讀取此檔並轉成標籤所需的 `Product[]`（`twProducts`）：`brand → name`、`product` 的括號內容拆成 `volume`、括號前為 `variant`、`price` 轉成數字 `basePrice`、`id` 依序產生（`tw-1`、`tw-2`…）。
+
+**新增商品**（需在 `npm run dev` 開發模式）：點工具列的「新增」→ 填寫 `品牌 / 品名 / 價格` → 按「確定」即透過 `POST /api/products` 寫回 `products.json`（按「取消」放棄）。寫入後清單即時更新。
+> 因為瀏覽器無法直接寫檔，寫入經由開發伺服器的 `products-api` 外掛完成；production build 不含此 API，故「新增」按鈕只在開發模式顯示。
 
 ## 參考樣板
 

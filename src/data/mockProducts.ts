@@ -1,15 +1,39 @@
-import type { Product } from '@/types/label'
+import type { Product, RawProduct } from '@/types/label'
+import rawProducts from './products.json'
 
 /**
- * 台灣示範資料（沿用原 label.html 的飲料樣本）。
- * basePrice 即售價。
+ * 解析 products.json 的 `product` 欄位，把「品名(容量)」拆成 variant 與 volume。
+ * 例：「日式綠茶無糖(600ml)」→ { variant: '日式綠茶無糖', volume: '600ml' }。
+ * 同時支援半形 `()` 與全形 `（）` 括號；沒有括號時整串視為 variant。
+ * 第一組採貪婪比對，故有多組括號時以「最後一組」作為容量（例：「A(B)(500ml)」→ variant「A(B)」、volume「500ml」）。
  */
-export const twProducts: Product[] = [
-  { id: 'tw-1', name: '茶裏王', variant: '日式綠茶無糖', volume: '600ml', basePrice: 20 },
-  { id: 'tw-2', name: '茶裏王', variant: '台式綠茶', volume: '600ml', basePrice: 20 },
-  { id: 'tw-3', name: '茶裏王', variant: '白毫烏龍茶', volume: '600ml', basePrice: 20 },
-  { id: 'tw-4', name: '茶裏王', variant: '英式紅茶', volume: '600ml', basePrice: 20 },
-  { id: 'tw-5', name: '愛之味', variant: '健康油切分解茶', volume: '590ml', basePrice: 30 },
-  { id: 'tw-6', name: '原萃', variant: '日式綠茶', volume: '580ml', basePrice: 25 },
-  { id: 'tw-7', name: '伊藤園', variant: '綠茶', volume: '530ml', basePrice: 25 },
-]
+export function parseProductField(product: string): { variant?: string; volume?: string } {
+  const match = product.match(/^(.*)[（(]([^（）()]*)[）)]\s*$/)
+  if (match) {
+    const variant = (match[1] ?? '').trim()
+    const volume = (match[2] ?? '').trim()
+    return { variant: variant || undefined, volume: volume || undefined }
+  }
+  const variant = product.trim()
+  return { variant: variant || undefined }
+}
+
+/** 將單筆原始資料（brand / product / price）轉成標籤用的 {@link Product}。 */
+export function toProduct(raw: RawProduct, index: number): Product {
+  const { variant, volume } = parseProductField(raw.product)
+  return {
+    id: `tw-${index + 1}`,
+    name: raw.brand.trim(),
+    variant,
+    volume,
+    basePrice: Number(raw.price),
+  }
+}
+
+/** 將整個原始陣列轉成 {@link Product}[]。 */
+export function toProducts(raws: RawProduct[]): Product[] {
+  return raws.map(toProduct)
+}
+
+/** 由 products.json 取出並轉換後的台灣商品清單。 */
+export const twProducts: Product[] = toProducts(rawProducts as RawProduct[])

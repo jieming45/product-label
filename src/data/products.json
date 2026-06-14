@@ -1,0 +1,37 @@
+[
+  {
+    "brand": "茶裏王",
+    "product": "日式綠茶無糖(600ml)",
+    "price": "20"
+  },
+  {
+    "brand": "茶裏王",
+    "product": "台式綠茶(600ml)",
+    "price": "20"
+  },
+  {
+    "brand": "茶裏王",
+    "product": "白毫烏龍茶(600ml)",
+    "price": "20"
+  },
+  {
+    "brand": "茶裏王",
+    "product": "英式紅茶(600ml)",
+    "price": "20"
+  },
+  {
+    "brand": "愛之味",
+    "product": "健康油切分解茶(590ml)",
+    "price": "30"
+  },
+  {
+    "brand": "原萃",
+    "product": "日式綠茶(580ml)",
+    "price": "25"
+  },
+  {
+    "brand": "伊藤園",
+    "product": "綠茶(530ml)",
+    "price": "25"
+  }
+]
